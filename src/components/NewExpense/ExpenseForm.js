@@ -9,10 +9,7 @@ const ExpenseForm = (props) => {
   });
 
   const updateUserInputHandler = (event) => {
-    const newValue =
-      event.target.name === "enteredDate"
-        ? { [event.target.name]: new Date(event.target.value) }
-        : { [event.target.name]: event.target.value };
+    const newValue = { [event.target.name]: event.target.value };
     updateUserInput((previousState) => {
       return {
         ...previousState,
@@ -23,13 +20,18 @@ const ExpenseForm = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onSaveExpenseData(userInput)
+    const expenseObject = {
+      title: userInput.enteredTitle,
+      amount: userInput.enteredAmount,
+      date: new Date(userInput.enteredDate),
+    };
+    props.onSaveExpenseData(expenseObject);
     updateUserInput({
       enteredTitle: "",
       enteredAmount: "",
       enteredDate: "",
     });
-   };
+  };
 
   return (
     <form onSubmit={submitHandler}>
